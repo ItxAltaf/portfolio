@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altaf Hussain — Senior React Native Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --grad1: #0f0c29;
+    --grad2: #302b63;
+    --grad3: #24243e;
+    --accent1: #a78bfa;
+    --accent2: #60a5fa;
+    --accent3: #34d399;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--grad1);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, rgba(167,139,250,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 100%, rgba(96,165,250,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(52,211,153,0.06) 0%, transparent 60%),
+      linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    z-index: -1;
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: float 8s ease-in-out infinite;
+    z-index: -1;
+  }
+  .orb1 { width: 400px; height: 400px; background: #a78bfa; top: -100px; left: -100px; animation-delay: 0s; }
+  .orb2 { width: 300px; height: 300px; background: #60a5fa; bottom: -50px; right: -50px; animation-delay: 3s; }
+  .orb3 { width: 200px; height: 200px; background: #34d399; top: 50%; left: 60%; animation-delay: 6s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15,12,41,0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent1); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-content { max-width: 700px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--accent1);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 50%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 560px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .btn-primary {
+    padding: 0.9rem 2rem;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(167,139,250,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(167,139,250,0.4);
+  }
+
+  .btn-secondary {
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent1);
+    color: var(--accent1);
+    background: rgba(167,139,250,0.05);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.2rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent1);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(167,139,250,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(167,139,250,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+
+  .skill-card:hover::before { opacity: 1; }
+
+  .skill-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.7rem;
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: var(--accent1);
+    font-weight: 500;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .project-card:hover {
+    border-color: rgba(167,139,250,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+
+  .project-img {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-img-lucett {
+    background: linear-gradient(135deg, #1a1a4e, #0d3b6e);
+  }
+
+  .project-img-district {
+    background: linear-gradient(135deg, #2d1b69, #4c1d95);
+  }
+
+  .project-img-bali {
+    background: linear-gradient(135deg, #1a3a1a, #065f46);
+  }
+
+  .project-img-school {
+    background: linear-gradient(135deg, #3b1a1a, #7f1d1d);
+  }
+
+  .project-img-lms {
+    background: linear-gradient(135deg, #1a2e4a, #1e3a5f);
+  }
+
+  .project-img-unihub {
+    background: linear-gradient(135deg, #2a1a3a, #581c87);
+  }
+
+  .project-body { padding: 1.8rem; }
+
+  .project-badge {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    color: var(--accent3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+
+  .project-links { display: flex; gap: 0.8rem; }
+
+  .project-link {
+    padding: 0.5rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .link-store {
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    color: white;
+  }
+
+  .link-store:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  .link-info {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .link-info:hover { border-color: var(--accent1); color: var(--accent1); }
+
+  /* EXPERIENCE */
+  .exp-timeline { position: relative; }
+
+  .exp-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, #a78bfa, #60a5fa, transparent);
+  }
+
+  .exp-item {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .exp-dot {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(167,139,250,0.4);
+  }
+
+  .exp-content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.8rem;
+    flex: 1;
+    transition: all 0.3s;
+  }
+
+  .exp-content:hover {
+    border-color: rgba(167,139,250,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-company {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .exp-period {
+    font-size: 0.8rem;
+    color: var(--accent1);
+    background: rgba(167,139,250,0.1);
+    padding: 0.2rem 0.8rem;
+    border-radius: 100px;
+    border: 1px solid rgba(167,139,250,0.2);
+  }
+
+  .exp-role {
+    font-size: 0.9rem;
+    color: var(--accent2);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .exp-bullets { list-style: none; }
+
+  .exp-bullets li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.4rem;
+  }
+
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent1);
+    font-size: 0.7rem;
+    top: 0.15rem;
+  }
+
+  /* CONTACT */
+  .contact-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(167,139,250,0.08), transparent);
+  }
+
+  .contact-wrapper h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .contact-wrapper p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .contact-link-email {
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    color: white;
+    box-shadow: 0 4px 20px rgba(167,139,250,0.3);
+  }
+
+  .contact-link-email:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(167,139,250,0.4);
+  }
+
+  .contact-link-linkedin {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .contact-link-linkedin:hover {
+    border-color: var(--accent1);
+    color: var(--accent1);
+  }
+
+  .contact-link-github {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .contact-link-github:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero-stats { gap: 1.5rem; }
+    .contact-wrapper { padding: 2.5rem 1.5rem; }
+    .exp-timeline::before { left: 15px; }
+    .exp-dot { width: 30px; height: 30px; min-width: 30px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Altaf Hussain</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Available for opportunities</div>
+    <h1>Senior <span>React Native</span> Developer</h1>
+    <p class="hero-desc">
+      5+ years building production-grade iOS & Android apps. From RFID hardware integration to AI-powered social platforms — I take full ownership from architecture to App Store deployment.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Apps Shipped</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Companies</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Live Store Apps</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-tag">What I do</div>
+    <h2 class="section-title">Technical <span style="background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Expertise</span></h2>
+    <p class="section-desc">Production-grade mobile development with deep expertise across the full React Native ecosystem.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">📱</div>
+      <div class="skill-name">React Native & TypeScript</div>
+      <div class="skill-desc">Cross-platform iOS & Android with New Architecture (Fabric & TurboModules)</div>
+      <div class="skill-tags">
+        <span class="tag">React Native</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Fabric</span>
+        <span class="tag">TurboModules</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔄</div>
+      <div class="skill-name">State Management</div>
+      <div class="skill-desc">Complex async flows with Redux Saga, server state with React Query</div>
+      <div class="skill-tags">
+        <span class="tag">Redux Saga</span>
+        <span class="tag">React Query</span>
+        <span class="tag">Context API</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔥</div>
+      <div class="skill-name">Firebase & Real-time</div>
+      <div class="skill-desc">Production Firebase integrations for chat, notifications, and live tracking</div>
+      <div class="skill-tags">
+        <span class="tag">Firestore</span>
+        <span class="tag">FCM</span>
+        <span class="tag">WebSockets</span>
+        <span class="tag">Pusher</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📡</div>
+      <div class="skill-name">Hardware & Native SDKs</div>
+      <div class="skill-desc">RFID integration (Chainway P80), biometrics, GPS, Google Maps API</div>
+      <div class="skill-tags">
+        <span class="tag">RFID SDK</span>
+        <span class="tag">Face Recognition</span>
+        <span class="tag">Google Maps</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">💳</div>
+      <div class="skill-name">Payments & Integrations</div>
+      <div class="skill-desc">Stripe, Social SDKs, AdMob, REST APIs, offline-first sync</div>
+      <div class="skill-tags">
+        <span class="tag">Stripe</span>
+        <span class="tag">REST API</span>
+        <span class="tag">OAuth</span>
+        <span class="tag">AdMob</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🚀</div>
+      <div class="skill-name">Deployment & CI/CD</div>
+      <div class="skill-desc">Full release cycles on App Store Connect & Google Play Console with Fastlane</div>
+      <div class="skill-tags">
+        <span class="tag">App Store</span>
+        <span class="tag">Play Store</span>
+        <span class="tag">Fastlane</span>
+        <span class="tag">GitHub Actions</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-tag">Portfolio</div>
+    <h2 class="section-title">Apps I've <span style="background: linear-gradient(135deg, #60a5fa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Shipped</span></h2>
+    <p class="section-desc">Production apps across logistics, social networking, food delivery, EdTech, and e-commerce.</p>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-lucett">📡</div>
+      <div class="project-body">
+        <div class="project-badge">Live on Play Store</div>
+        <div class="project-title">Lucett — RFID Fine Art Logistics</div>
+        <p class="project-desc">First-of-its-kind app integrating RFID technology throughout fine art transportation. Built entirely from scratch with Chainway P80 SDK, real-time GPS tracking, and industrial-grade asset management.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">RFID SDK</span>
+          <span class="tag">Google Maps</span>
+          <span class="tag">TypeScript</span>
+        </div>
+        <div class="project-links">
+          <a href="https://play.google.com/store/apps/details?id=app.lucett.com" target="_blank" class="project-link link-store">Google Play</a>
+          <a href="#" class="project-link link-info">Built from Scratch</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-district">🎓</div>
+      <div class="project-body">
+        <div class="project-badge">Live on App Store</div>
+        <div class="project-title">DistrictUni — University Social Network</div>
+        <p class="project-desc">Canadian university social platform with course-based group chats, Newsfeed, and BuyNSell. Full UI redesign, codebase refactor, and AI assistant integration.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">AI Assistant</span>
+          <span class="tag">FCM</span>
+        </div>
+        <div class="project-links">
+          <a href="https://apps.apple.com/pk/app/districtuni/id1531279634" target="_blank" class="project-link link-store">App Store</a>
+          <a href="#" class="project-link link-info">UI Redesign</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-bali">🍕</div>
+      <div class="project-body">
+        <div class="project-badge">Team Lead</div>
+        <div class="project-title">Bali & Bali Restaurant</div>
+        <p class="project-desc">Dual-mode food ordering platform supporting both dine-in ordering within the restaurant and home delivery. Real-time order management and multi-mode cart flows.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">Redux</span>
+          <span class="tag">Real-time</span>
+          <span class="tag">Firebase</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link link-info">Food Delivery</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-unihub">🛍️</div>
+      <div class="project-body">
+        <div class="project-badge">E-commerce</div>
+        <div class="project-title">UniHub Marketplace</div>
+        <p class="project-desc">Full-scale student marketplace with Stripe payment gateway integration, real-time service tracking, and intuitive UI for buying and selling across campus.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">Stripe</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Redux</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link link-info">Marketplace</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-school">🏫</div>
+      <div class="project-body">
+        <div class="project-badge">Built from Scratch</div>
+        <div class="project-title">School Management System</div>
+        <p class="project-desc">Comprehensive mobile app covering admin, teacher, and student workflows including attendance, scheduling, and communication features. Greenfield architecture.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Role-based</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link link-info">EdTech</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img project-img-lms">📚</div>
+      <div class="project-body">
+        <div class="project-badge">EdTech</div>
+        <div class="project-title">Learning Management System</div>
+        <p class="project-desc">Full-featured LMS mobile app with role-based access for instructors and learners, course content delivery, progress tracking, and rich media support.</p>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Redux</span>
+          <span class="tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link link-info">LMS Platform</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <div class="section-tag">Career</div>
+    <h2 class="section-title">Work <span style="background: linear-gradient(135deg, #a78bfa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Experience</span></h2>
+    <p class="section-desc">5 years across 3 companies, growing from developer to senior engineer and team lead.</p>
+  </div>
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-dot">🚀</div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <div class="exp-company">Lucett Ltd</div>
+          <div class="exp-period">Nov 2023 — Present</div>
+        </div>
+        <div class="exp-role">Sr. React Native Developer</div>
+        <ul class="exp-bullets">
+          <li>Built the Lucett app entirely from scratch — first app to integrate RFID throughout fine art logistics</li>
+          <li>Integrated Chainway P80 RFID SDK with hardware-level encryption and custom password locking</li>
+          <li>Designed real-time location tracking with Google Maps API and optimized background processing</li>
+          <li>Developed robust scanning modules syncing native Android layer with React Native frontend</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-dot">⚡</div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <div class="exp-company">Fabintel</div>
+          <div class="exp-period">Jan 2022 — Nov 2023</div>
+        </div>
+        <div class="exp-role">Sr. React Native Developer | Team Lead</div>
+        <ul class="exp-bullets">
+          <li>Led mobile team in developing Bali & Bali Restaurant — dual-mode food ordering platform</li>
+          <li>Architected and delivered Learning Management System with role-based access</li>
+          <li>Built biometric attendance system using face recognition technology</li>
+          <li>Delivered music streaming app with Reanimated animations and background audio playback</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-dot">💡</div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <div class="exp-company">ServiceProvider.Pk</div>
+          <div class="exp-period">July 2020 — Jan 2022</div>
+        </div>
+        <div class="exp-role">React Native Developer</div>
+        <ul class="exp-bullets">
+          <li>Built School Management System from scratch covering admin, teacher, and student workflows</li>
+          <li>Developed Med Green Pharmacy app with inventory management and secure checkout flows</li>
+          <li>Built APEX — Job Portal & Social App with Google AdMob revenue integration</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper reveal">
+    <h2>Let's Build Something <span style="background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Great</span></h2>
+    <p>Open to full-time roles, remote contracts, and freelance projects. Based in Lahore, Pakistan.</p>
+    <div class="contact-links">
+      <a href="mailto:itxaltaf789@gmail.com" class="contact-link contact-link-email">✉️ itxaltaf789@gmail.com</a>
+      <a href="https://www.linkedin.com/in/mr-altaf/" target="_blank" class="contact-link contact-link-linkedin">💼 LinkedIn</a>
+      <a href="https://github.com/itxAltaf" target="_blank" class="contact-link contact-link-github">🐙 GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Altaf Hussain — Senior React Native Developer — Lahore, Pakistan</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
